@@ -1,0 +1,103 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+		<title></title>
+		<meta name="Keywords" content="">
+		<meta name="Description" content="">
+		<link href="css/css.css" rel="stylesheet" type="text/css" />
+     <script type="text/javascript" src="js/jq183.js"></script>
+    <script type="text/javascript" src="js/jQR.js"></script>
+	</head>
+	<body>
+    
+	<div class="main">
+     <div class="zp"><img src="images/zp.png" /><img src="images/zz.png" class="zz" id="zz" />
+      <div class="gobg"><img src="images/go.png" class="go" id="go" /></div>
+  </div>
+  
+	
+
+  <div class="pwpack" id="pwpack">
+      <div class="pwbg" id="pwbg"></div>
+      <div class="tc tc_1"><a href="javascript:void(0);" class="close"></a><div class="tc_1_txt2">如有疑问详询客服专员</div></div><!--1个月软件使用权-->
+      <div class="tc tc_2"><a href="javascript:void(0);" class="close"></a><div class="tc_1_txt2">如有疑问详询客服专员</div></div><!--2个月软件使用权-->
+      <div class="tc tc_3"><a href="javascript:void(0);" class="close"></a><div class="tc_1_txt2">如有疑问详询客服专员</div></div><!--3个月软件使用权-->
+      <div class="tc tc_8"><a href="javascript:void(0);" class="close"></a><div class="tc_1_txt2">如有疑问详询客服专员</div></div><!--4个月软件使用权-->
+      <div class="tc tc_7"><a href="javascript:void(0);" class="close"></a><div class="tc_1_txt2">如有疑问详询客服专员</div></div><!--5个月软件使用权-->
+      <div class="tc tc_6"><a href="javascript:void(0);" class="close"></a><div class="tc_1_txt2">如有疑问详询客服专员</div></div><!--6个月软件使用权-->
+      <div class="tc tc_4"><a href="javascript:void(0);" class="close"></a><div class="tc_1_txt6">如有疑问详询客服专员</div></div><!--机会已用完-->
+      <div class="tc tc_5"><a href="javascript:void(0);" class="close"></a><div class="tc_1_txt6">如有疑问详询客服专员</div></div><!--输入正确的软件账号-->
+  </div>
+    
+<script type="text/javascript">
+$(function () {
+  
+  
+
+      /* 转盘 */
+            var emLottery = {
+                option: {
+                    rpool: [ [40,85], [100, 150], [160, 210], [220, 270], [280, 330],[340,385]]
+                    , GCflag: true
+                    , CJflag: true
+                    , CJbutton: $("#go")
+                    , DishWheel: $("#zz")
+                    , OtherDom: $("#zphand")
+                    , setWin: function () { }
+                },
+                getRandom: function (num) {
+                    var rItem = this.option.rpool[num],
+                    interval = rItem[1] - rItem[0],
+                    getResult = (Math.random() * interval) + rItem[0];
+                    return getResult;
+                },
+                setGC: function (yes) {
+                    (yes === true) ? (this.option.GCflag = true) : (this.option.GCflag = false);
+                },
+                segCJ: function (yes) {
+                    (yes === true) ? (this.option.CJflag = true) : (this.option.CJflag = false);
+                },
+                LotteryDraw: function (dkey) {
+                    var _Oself = this,
+                       deg = parseInt(_Oself.getRandom(parseInt(dkey)));
+
+                    if (emLottery.option.GCflag === true && emLottery.option.CJflag === true) {
+                        emLottery.setGC(false);
+                        emLottery.option.CJbutton.hide();
+                        $("#zz").rotate({
+                            angle: 0,
+                            animateTo:(4320 + deg), //345,
+                            duration: 3000,//1,
+                            callback: function () {
+                                _Oself.option.CJbutton.fadeIn(0, "", _Oself.option.setWin());
+                                _Oself.option.GCflag = true;
+
+                            }
+                        });
+                    }
+
+                }
+            };
+
+
+
+            //点击开始抽奖
+            $("#go").click(function () {
+                //6 * Math.random() 换成0、1、2,3,4,5整数。
+               // emLottery.LotteryDraw(0);
+                emLottery.LotteryDraw(6 * Math.random());
+            });
+            //抽奖后callback
+            emLottery.option.setWin = function () {
+                $("#pwpack").show().find(".tc").hide().eq(2).show();
+            }
+            //关闭弹窗逻辑
+            $("#pwpack .tc .close").click(function () {
+                $("#pwpack").hide().find(".tc").hide(); 
+            });
+        });
+
+    </script>
+</body>
+</html>
